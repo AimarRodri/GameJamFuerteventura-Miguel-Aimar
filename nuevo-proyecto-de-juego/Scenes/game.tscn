@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://tpaurv8eti14" path="res://Assets/AssetsInterface/Table.png" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://cq347v1hplp27" path="res://Scripts/game.gd" id="1_qxrlw"]
 [ext_resource type="PackedScene" uid="uid://bnmyj4yj7uimu" path="res://Scenes/control.tscn" id="3_wrm1d"]
+[ext_resource type="PackedScene" uid="uid://dla37eioedxiw" path="res://Scenes/main_character.tscn" id="4_3dryh"]
 
 [node name="Game" type="Node2D" unique_id=165580537]
 script = ExtResource("1_qxrlw")
@@ -20,3 +21,6 @@ offset_left = -196.0
 offset_top = 31.0
 offset_right = -196.0
 offset_bottom = 31.0
+
+[node name="MainCharacter" parent="." unique_id=1901642304 instance=ExtResource("4_3dryh")]
+position = Vector2(-215, 4)

@@ -1,3 +1,12 @@
 [gd_scene format=3 uid="uid://dla37eioedxiw"]
 
+[ext_resource type="Script" uid="uid://ce3e7cffbyna6" path="res://Scripts/main_character.gd" id="1_0eyao"]
+[ext_resource type="Texture2D" uid="uid://c081571ystv6a" path="res://Assets/AssetsCaras/SpriteMainCharacter-Static1.png" id="2_11o2n"]
+
 [node name="MainCharacter" type="Node2D" unique_id=1901642304]
+script = ExtResource("1_0eyao")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1546389414]
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=66742483]
+texture = ExtResource("2_11o2n")
