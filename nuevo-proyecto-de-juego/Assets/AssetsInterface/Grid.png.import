@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5jvg30pjhjh5"
-path="res://.godot/imported/Enemy3.png-4c34cd9f7022b7bf74da8a3006aea90e.ctex"
+uid="uid://nuj1yjb1il2y"
+path="res://.godot/imported/Grid.png-b2bf4699e192363b10d1a97ad40304dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Enemy3.png"
-dest_files=["res://.godot/imported/Enemy3.png-4c34cd9f7022b7bf74da8a3006aea90e.ctex"]
+source_file="res://Assets/AssetsInterface/Grid.png"
+dest_files=["res://.godot/imported/Grid.png-b2bf4699e192363b10d1a97ad40304dc.ctex"]
 
 [params]
 

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dju1wkhpxunhb"]
 
-[ext_resource type="Texture2D" uid="uid://cbvft8hv8q6uj" path="res://Assets/EnemyBase.png" id="1_hghv2"]
+[ext_resource type="Texture2D" uid="uid://cbvft8hv8q6uj" path="res://Assets/AssetsEnemies/EnemyBase.png" id="1_hghv2"]
 
 [sub_resource type="GDScript" id="GDScript_1f0kj"]
 script/source = "extends Node  # O 'extends Resource' según lo que hayas elegido

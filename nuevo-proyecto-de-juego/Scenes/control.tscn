@@ -1,15 +1,25 @@
 [gd_scene format=3 uid="uid://bnmyj4yj7uimu"]
 
-[ext_resource type="Texture2D" uid="uid://nuj1yjb1il2y" path="res://Assets/Grid.png" id="1_sjmnu"]
+[ext_resource type="Script" uid="uid://dw5org4dfuf51" path="res://Scenes/control.gd" id="1_1tcje"]
+[ext_resource type="Texture2D" uid="uid://nuj1yjb1il2y" path="res://Assets/AssetsInterface/Grid.png" id="1_sjmnu"]
 [ext_resource type="Script" uid="uid://cgou7nwvha0mv" path="res://Scripts/grid_container.gd" id="2_cgmvo"]
+[ext_resource type="Texture2D" uid="uid://cmgo74xfbl6qe" path="res://Assets/AssetsInterface/NextLevel.png" id="3_vh8u0"]
+[ext_resource type="Texture2D" uid="uid://c7hf4rj6s5m71" path="res://Assets/AssetsInterface/NextLevelPressed.png" id="4_dqysy"]
+[ext_resource type="Script" uid="uid://11dsq0i20sqp" path="res://Scenes/texture_button.gd" id="4_wpaqk"]
+[ext_resource type="Texture2D" uid="uid://cgqyoc32yti6h" path="res://Assets/AssetsInterface/NextLevelHovered.png" id="5_1tcje"]
 
 [node name="Control" type="Control" unique_id=1319678904]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -4.0
+offset_right = -5.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_1tcje")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=611957869]
 layout_mode = 0
@@ -58,3 +68,14 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=1734561559]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 18.0
+offset_right = 142.0
+offset_bottom = 50.0
+texture_normal = ExtResource("3_vh8u0")
+texture_pressed = ExtResource("4_dqysy")
+texture_hover = ExtResource("5_1tcje")
+script = ExtResource("4_wpaqk")
