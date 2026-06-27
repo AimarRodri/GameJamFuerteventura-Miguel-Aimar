@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://7bf0p3syahqn"]
+
+[ext_resource type="Texture2D" uid="uid://tpaurv8eti14" path="res://Assets/Table.png" id="1_ebmjs"]
+[ext_resource type="Script" uid="uid://cq347v1hplp27" path="res://Scripts/game.gd" id="1_qxrlw"]
+
+[node name="Game" type="Node2D" unique_id=165580537]
+script = ExtResource("1_qxrlw")
+
+[node name="Table" type="Sprite2D" parent="." unique_id=515944173]
+position = Vector2(0, -25)
+texture = ExtResource("1_ebmjs")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=573293738]
+offset = Vector2(-148, 0)
+zoom = Vector2(2.5, 2.5)

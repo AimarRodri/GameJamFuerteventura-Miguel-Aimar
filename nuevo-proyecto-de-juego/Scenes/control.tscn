@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://bnmyj4yj7uimu"]
+
+[ext_resource type="Texture2D" uid="uid://nuj1yjb1il2y" path="res://Assets/Grid.png" id="1_sjmnu"]
+[ext_resource type="Script" uid="uid://cgou7nwvha0mv" path="res://Scripts/grid_container.gd" id="2_cgmvo"]
+
+[node name="Control" type="Control" unique_id=1319678904]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=611957869]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_sjmnu")
+
+[node name="GridContainer" type="GridContainer" parent="TextureRect" unique_id=1308595655]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 3
+script = ExtResource("2_cgmvo")
+
+[node name="Button1" type="Button" parent="TextureRect/GridContainer" unique_id=1361042304]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button2" type="Button" parent="TextureRect/GridContainer" unique_id=897335069]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button3" type="Button" parent="TextureRect/GridContainer" unique_id=1588772836]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button4" type="Button" parent="TextureRect/GridContainer" unique_id=1512909098]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button5" type="Button" parent="TextureRect/GridContainer" unique_id=590909593]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button6" type="Button" parent="TextureRect/GridContainer" unique_id=666098813]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
