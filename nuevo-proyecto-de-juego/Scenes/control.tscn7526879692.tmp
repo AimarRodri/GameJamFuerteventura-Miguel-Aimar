@@ -22,23 +22,20 @@ grow_vertical = 2
 script = ExtResource("1_1tcje")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=611957869]
-z_index = 2
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("1_sjmnu")
-stretch_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="TextureRect" unique_id=1308595655]
-z_index = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = -1
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
 columns = 3
 script = ExtResource("2_cgmvo")
 

@@ -1,21 +1,378 @@
+class_name MenuCharacter
 extends GridContainer
 
-func _ready() -> void:
-	# 1. Obtenemos todos los hijos del GridContainer
-	var botones = get_children()
-	
-	# 2. Recorremos los botones usando su índice (de 0 a 5)
-	for i in range(botones.size()):
-		var boton = botones[i]
-		
-		if boton is Button:
-			# El número a imprimir será el índice + 1 (para que vaya del 1 al 6)
-			var numero_boton = i + 1
-			
-			# Conectamos la pulsación del botón a nuestra función personalizada
-			# Usamos .bind() para enviarle el número correcto a esa función
-			boton.pressed.connect(_on_boton_pulsado.bind(numero_boton))
+# Rutas de los assets
+const MENU_PATH = "res://Assets/AssetsMenu/"
 
-# 3. Esta función se ejecuta automáticamente al pulsar CUALQUIER botón
-func _on_boton_pulsado(numero: int) -> void:
-	print("Has pulsado el botón número: ", numero)
+# Números y colores disponibles
+const NUMBERS = [1, 2, 3, 4, 5, 6]
+const COLORS = ["Rojo", "Azul", "Verde", "Incoloro"]
+
+# Array de botones detectados automáticamente
+var buttons: Array = []
+
+# Variables para almacenar la configuración actual de cada botón
+var current_numbers: Array = [1, 2, 3, 4, 5, 6]
+var current_colors: Array = ["Rojo", "Rojo", "Rojo", "Rojo", "Rojo", "Rojo"]
+
+# Configuración visual
+@export var button_scale: float = 1.0
+
+# OFFSETS INDIVIDUALES para cada dirección
+@export var offset_x_left: float = 17   # Desplazamiento en X para la izquierda
+@export var offset_x_right: float = 17  # Desplazamiento en X para la derecha
+@export var offset_y_up: float = 17     # Desplazamiento en Y para arriba
+@export var offset_y_down: float = 17   # Desplazamiento en Y para abajo
+
+func _ready() -> void:
+	print("=== INICIALIZANDO MENUCHARACTER ===")
+	
+	# Detectar automáticamente los botones hijos
+	_detect_buttons()
+	
+	if buttons.size() == 0:
+		push_error("MenuCharacter: No se encontraron botones hijos.")
+		return
+	
+	print("Se encontraron %d botones" % buttons.size())
+	
+	# Configurar los botones
+	_setup_existing_sprites()
+	
+	# Cargar las texturas iniciales
+	load_all_textures()
+	
+	print("=== MENUCHARACTER INICIALIZADO ===")
+
+func _detect_buttons():
+	# Buscar todos los TextureButton que sean hijos directos
+	for child in get_children():
+		if child is TextureButton:
+			buttons.append(child)
+			print("Botón detectado: ", child.name)
+
+func _setup_existing_sprites():
+	# Para cada botón, buscar sus hijos Sprite2D
+	for i in range(buttons.size()):
+		var button = buttons[i]
+		var color_sprite: Sprite2D = null
+		var number_sprite: Sprite2D = null
+		
+		# Buscar sprites hijos
+		for child in button.get_children():
+			if child is Sprite2D:
+				if "Color" in child.name:
+					color_sprite = child
+				elif "Number" in child.name or "Numero" in child.name:
+					number_sprite = child
+		
+		# Si no se encontraron, crearlos
+		if not color_sprite:
+			color_sprite = Sprite2D.new()
+			color_sprite.name = "ColorSprite_%d" % (i + 1)
+			color_sprite.z_index = 0  # Capa inferior (color)
+			button.add_child(color_sprite)
+			print("Creado ColorSprite para botón %d" % (i + 1))
+		
+		if not number_sprite:
+			number_sprite = Sprite2D.new()
+			number_sprite.name = "NumberSprite_%d" % (i + 1)
+			number_sprite.z_index = 1  # Capa superior (número)
+			button.add_child(number_sprite)
+			print("Creado NumberSprite para botón %d" % (i + 1))
+		
+		# Configurar escala
+		color_sprite.scale = Vector2(button_scale, button_scale)
+		number_sprite.scale = Vector2(button_scale, button_scale)
+		
+		# APLICAR OFFSETS SEGÚN LA POSICIÓN DEL BOTÓN
+		var offset = _get_offset_for_button(i)
+		color_sprite.position = offset
+		number_sprite.position = offset
+		
+		# Configurar el botón para que sea transparente
+		button.texture_normal = null
+		button.texture_pressed = null
+		button.texture_hover = null
+		button.texture_disabled = null
+		
+		# Conectar señal
+		button.pressed.connect(_on_button_pressed.bind(i))
+
+func _get_offset_for_button(index: int) -> Vector2:
+	# Determinar la posición del botón en la cuadrícula
+	var cols = columns if columns > 0 else 3  # Si columns es 0, usar 3 por defecto
+	var row = index / cols
+	var col = index % cols
+	
+	# Calcular offsets basados en la posición
+	var offset_x: float = 0
+	var offset_y: float = 0
+	
+	# Offset en X: izquierda o derecha
+	if col == 0:
+		# Primera columna (izquierda)
+		offset_x = offset_x_left
+	elif col == cols - 1:
+		# Última columna (derecha)
+		offset_x = offset_x_right
+	else:
+		# Columnas del medio (promedio)
+		offset_x = (offset_x_left + offset_x_right) / 2
+	
+	# Offset en Y: arriba o abajo
+	var total_rows = ceil(buttons.size() / float(cols))
+	if row == 0:
+		# Primera fila (arriba)
+		offset_y = offset_y_up
+	elif row == total_rows - 1:
+		# Última fila (abajo)
+		offset_y = offset_y_down
+	else:
+		# Filas del medio (promedio)
+		offset_y = (offset_y_up + offset_y_down) / 2
+	
+	return Vector2(offset_x, offset_y)
+
+func load_all_textures():
+	print("=== CARGANDO TEXTURAS DEL MENÚ ===")
+	
+	for i in range(min(buttons.size(), 6)):
+		var number = current_numbers[i]
+		var color = current_colors[i]
+		set_button_combination(i, number, color)
+
+func set_button_combination(index: int, number: int, color: String):
+	if index < 0 or index >= buttons.size():
+		return
+	
+	var button = buttons[index]
+	var color_sprite: Sprite2D = null
+	var number_sprite: Sprite2D = null
+	
+	# Buscar sprites hijos
+	for child in button.get_children():
+		if child is Sprite2D:
+			if "Color" in child.name:
+				color_sprite = child
+			elif "Number" in child.name or "Numero" in child.name:
+				number_sprite = child
+	
+	if not color_sprite or not number_sprite:
+		return
+	
+	# Guardar valores
+	if index < current_numbers.size():
+		current_numbers[index] = number
+	if index < current_colors.size():
+		current_colors[index] = color
+	
+	# Cargar texturas con los nombres CORRECTOS
+	# Números: "1 Menu.png", "2 Menu.png", etc.
+	var number_texture_path = "%s%dMenu.png" % [MENU_PATH, number]
+	# Colores: "MenuRojo.png", "MenuAzul.png", etc.
+	var color_texture_path = "%sMenu%s.png" % [MENU_PATH, color]
+	
+	# Cargar número
+	if ResourceLoader.exists(number_texture_path):
+		var texture = load(number_texture_path)
+		if texture:
+			number_sprite.texture = texture
+			number_sprite.visible = true
+			print("✓ %dMenu.png cargado para botón %d" % [number, index + 1])
+		else:
+			number_sprite.visible = false
+			push_error("✗ Error al cargar textura: ", number_texture_path)
+	else:
+		number_sprite.visible = false
+		push_error("✗ No existe archivo: ", number_texture_path)
+	
+	# Cargar color
+	if ResourceLoader.exists(color_texture_path):
+		var texture = load(color_texture_path)
+		if texture:
+			color_sprite.texture = texture
+			color_sprite.visible = true
+			print("✓ Menu%s.png cargado para botón %d" % [color, index + 1])
+		else:
+			color_sprite.visible = false
+			push_error("✗ Error al cargar textura: ", color_texture_path)
+	else:
+		color_sprite.visible = false
+		push_error("✗ No existe archivo: ", color_texture_path)
+
+# Función para actualizar offsets después de cambiar valores
+func update_offsets():
+	for i in range(buttons.size()):
+		var button = buttons[i]
+		var color_sprite: Sprite2D = null
+		var number_sprite: Sprite2D = null
+		
+		for child in button.get_children():
+			if child is Sprite2D:
+				if "Color" in child.name:
+					color_sprite = child
+				elif "Number" in child.name or "Numero" in child.name:
+					number_sprite = child
+		
+		if color_sprite and number_sprite:
+			var offset = _get_offset_for_button(i)
+			color_sprite.position = offset
+			number_sprite.position = offset
+
+# Función para randomizar todos los botones
+func randomize_all_buttons():
+	print("=== RANDOMIZANDO TODOS LOS BOTONES ===")
+	
+	for i in range(min(buttons.size(), 6)):
+		var random_number = NUMBERS[randi() % NUMBERS.size()]
+		var random_color = COLORS[randi() % COLORS.size()]
+		set_button_combination(i, random_number, random_color)
+	print("Todos los botones randomizados")
+
+# Función para randomizar un botón específico
+func randomize_button(index: int):
+	if index < 0 or index >= buttons.size():
+		return
+	
+	var random_number = NUMBERS[randi() % NUMBERS.size()]
+	var random_color = COLORS[randi() % COLORS.size()]
+	set_button_combination(index, random_number, random_color)
+	print("Botón %d randomizado" % (index + 1))
+
+# Funciones para cambiar botones individualmente
+func set_button_1(number: int = -1, color: String = ""):
+	if number == -1:
+		number = NUMBERS[randi() % NUMBERS.size()]
+	if color == "":
+		color = COLORS[randi() % COLORS.size()]
+	if buttons.size() > 0:
+		set_button_combination(0, number, color)
+
+func set_button_2(number: int = -1, color: String = ""):
+	if number == -1:
+		number = NUMBERS[randi() % NUMBERS.size()]
+	if color == "":
+		color = COLORS[randi() % COLORS.size()]
+	if buttons.size() > 1:
+		set_button_combination(1, number, color)
+
+func set_button_3(number: int = -1, color: String = ""):
+	if number == -1:
+		number = NUMBERS[randi() % NUMBERS.size()]
+	if color == "":
+		color = COLORS[randi() % COLORS.size()]
+	if buttons.size() > 2:
+		set_button_combination(2, number, color)
+
+func set_button_4(number: int = -1, color: String = ""):
+	if number == -1:
+		number = NUMBERS[randi() % NUMBERS.size()]
+	if color == "":
+		color = COLORS[randi() % COLORS.size()]
+	if buttons.size() > 3:
+		set_button_combination(3, number, color)
+
+func set_button_5(number: int = -1, color: String = ""):
+	if number == -1:
+		number = NUMBERS[randi() % NUMBERS.size()]
+	if color == "":
+		color = COLORS[randi() % COLORS.size()]
+	if buttons.size() > 4:
+		set_button_combination(4, number, color)
+
+func set_button_6(number: int = -1, color: String = ""):
+	if number == -1:
+		number = NUMBERS[randi() % NUMBERS.size()]
+	if color == "":
+		color = COLORS[randi() % COLORS.size()]
+	if buttons.size() > 5:
+		set_button_combination(5, number, color)
+
+# Función para obtener la combinación de un botón
+func get_button_combination(index: int) -> Dictionary:
+	if index < 0 or index >= buttons.size():
+		return {}
+	return {
+		"number": current_numbers[index] if index < current_numbers.size() else 0,
+		"color": current_colors[index] if index < current_colors.size() else ""
+	}
+
+# Función para obtener todas las combinaciones
+func get_all_combinations() -> Array:
+	var result = []
+	for i in range(buttons.size()):
+		result.append(get_button_combination(i))
+	return result
+
+func _on_button_pressed(index: int):
+	print("=== BOTÓN %d PRESIONADO ===" % (index + 1))
+	if index < current_numbers.size() and index < current_colors.size():
+		print("  Número: ", current_numbers[index])
+		print("  Color: ", current_colors[index])
+	print("========================")
+
+# Depuración
+func _process(delta):
+	if Input.is_key_pressed(KEY_R):
+		randomize_all_buttons()
+	
+	if Input.is_key_pressed(KEY_F1):
+		debug_print_all()
+	
+	# Teclas para ajustar offsets en tiempo real
+	if Input.is_key_pressed(KEY_Q):  # Izquierda -
+		offset_x_left -= 1
+		update_offsets()
+		print("Offset Izquierda X: ", offset_x_left)
+		await get_tree().create_timer(0.1).timeout
+	if Input.is_key_pressed(KEY_W):  # Izquierda +
+		offset_x_left += 1
+		update_offsets()
+		print("Offset Izquierda X: ", offset_x_left)
+		await get_tree().create_timer(0.1).timeout
+	
+	if Input.is_key_pressed(KEY_E):  # Derecha -
+		offset_x_right -= 1
+		update_offsets()
+		print("Offset Derecha X: ", offset_x_right)
+		await get_tree().create_timer(0.1).timeout
+	if Input.is_key_pressed(KEY_R):  # Derecha +
+		offset_x_right += 1
+		update_offsets()
+		print("Offset Derecha X: ", offset_x_right)
+		await get_tree().create_timer(0.1).timeout
+	
+	if Input.is_key_pressed(KEY_T):  # Arriba -
+		offset_y_up -= 1
+		update_offsets()
+		print("Offset Arriba Y: ", offset_y_up)
+		await get_tree().create_timer(0.1).timeout
+	if Input.is_key_pressed(KEY_Y):  # Arriba +
+		offset_y_up += 1
+		update_offsets()
+		print("Offset Arriba Y: ", offset_y_up)
+		await get_tree().create_timer(0.1).timeout
+	
+	if Input.is_key_pressed(KEY_U):  # Abajo -
+		offset_y_down -= 1
+		update_offsets()
+		print("Offset Abajo Y: ", offset_y_down)
+		await get_tree().create_timer(0.1).timeout
+	if Input.is_key_pressed(KEY_I):  # Abajo +
+		offset_y_down += 1
+		update_offsets()
+		print("Offset Abajo Y: ", offset_y_down)
+		await get_tree().create_timer(0.1).timeout
+
+func debug_print_all():
+	print("=== DEBUG MENU ===")
+	print("Botones encontrados: ", buttons.size())
+	print("Offset Izquierda X: ", offset_x_left)
+	print("Offset Derecha X: ", offset_x_right)
+	print("Offset Arriba Y: ", offset_y_up)
+	print("Offset Abajo Y: ", offset_y_down)
+	print("Columnas: ", columns)
+	for i in range(min(buttons.size(), 6)):
+		print("Botón %d: Número=%d, Color=%s" % [i+1, current_numbers[i], current_colors[i]])
+	print("=== FIN DEBUG ===")
