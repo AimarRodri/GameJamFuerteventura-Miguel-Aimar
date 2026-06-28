@@ -29,7 +29,7 @@ offset_bottom = 40.0
 texture = ExtResource("1_sjmnu")
 stretch_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="TextureRect" unique_id=1308595655]
+[node name="MenuCharacter" type="GridContainer" parent="TextureRect" unique_id=1308595655]
 z_index = 2
 layout_mode = 1
 anchors_preset = 15
@@ -42,64 +42,64 @@ theme_override_constants/v_separation = -1
 columns = 3
 script = ExtResource("2_cgmvo")
 
-[node name="Button1" type="TextureButton" parent="TextureRect/GridContainer" unique_id=1021334696]
+[node name="Button1" type="TextureButton" parent="TextureRect/MenuCharacter" unique_id=1021334696]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button1" unique_id=285284524]
+[node name="ColorSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button1" unique_id=285284524]
 
-[node name="NumberSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button1" unique_id=423159517]
+[node name="NumberSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button1" unique_id=423159517]
 z_index = 1
 
-[node name="Button2" type="TextureButton" parent="TextureRect/GridContainer" unique_id=1855117097]
+[node name="Button2" type="TextureButton" parent="TextureRect/MenuCharacter" unique_id=1855117097]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button2" unique_id=1963116813]
+[node name="ColorSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button2" unique_id=1963116813]
 
-[node name="NumberSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button2" unique_id=9852089]
+[node name="NumberSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button2" unique_id=9852089]
 z_index = 1
 
-[node name="Button3" type="TextureButton" parent="TextureRect/GridContainer" unique_id=1779640013]
+[node name="Button3" type="TextureButton" parent="TextureRect/MenuCharacter" unique_id=1779640013]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button3" unique_id=2113103177]
+[node name="ColorSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button3" unique_id=2113103177]
 
-[node name="NumberSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button3" unique_id=1677806400]
+[node name="NumberSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button3" unique_id=1677806400]
 z_index = 1
 
-[node name="Button4" type="TextureButton" parent="TextureRect/GridContainer" unique_id=100455452]
+[node name="Button4" type="TextureButton" parent="TextureRect/MenuCharacter" unique_id=100455452]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button4" unique_id=2039183782]
+[node name="ColorSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button4" unique_id=2039183782]
 
-[node name="NumberSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button4" unique_id=2128748732]
+[node name="NumberSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button4" unique_id=2128748732]
 z_index = 1
 
-[node name="Button5" type="TextureButton" parent="TextureRect/GridContainer" unique_id=1980506557]
+[node name="Button5" type="TextureButton" parent="TextureRect/MenuCharacter" unique_id=1980506557]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button5" unique_id=943964593]
+[node name="ColorSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button5" unique_id=943964593]
 
-[node name="NumberSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button5" unique_id=1290064429]
+[node name="NumberSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button5" unique_id=1290064429]
 z_index = 1
 
-[node name="Button6" type="TextureButton" parent="TextureRect/GridContainer" unique_id=1861450231]
+[node name="Button6" type="TextureButton" parent="TextureRect/MenuCharacter" unique_id=1861450231]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button6" unique_id=706049198]
+[node name="ColorSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button6" unique_id=706049198]
 
-[node name="NumberSprite" type="Sprite2D" parent="TextureRect/GridContainer/Button6" unique_id=1898672707]
+[node name="NumberSprite" type="Sprite2D" parent="TextureRect/MenuCharacter/Button6" unique_id=1898672707]
 z_index = 1
 
 [node name="TextureButton" type="TextureButton" parent="." unique_id=1734561559]

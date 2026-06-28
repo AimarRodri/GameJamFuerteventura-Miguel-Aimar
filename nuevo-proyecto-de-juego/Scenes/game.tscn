@@ -7,6 +7,7 @@
 
 [node name="Game" type="Node2D" unique_id=165580537]
 script = ExtResource("1_qxrlw")
+enemy_spacing = 32.0
 
 [node name="Table" type="Sprite2D" parent="." unique_id=515944173]
 z_index = -1

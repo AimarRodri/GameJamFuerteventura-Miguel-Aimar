@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bjfj2s7kc6o8a"]
+
+[ext_resource type="Script" uid="uid://uu0r0e10o0sm" path="res://Scripts/dominoenemy.gd" id="1_irxx2"]
+[ext_resource type="Texture2D" uid="uid://cbvft8hv8q6uj" path="res://Assets/AssetsEnemies/EnemyBase.png" id="1_qejyt"]
+
+[node name="DominoEnemy" type="Node2D" unique_id=630252798]
+script = ExtResource("1_irxx2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=118505835]
+texture = ExtResource("1_qejyt")
