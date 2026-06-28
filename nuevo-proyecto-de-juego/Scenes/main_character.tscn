@@ -1,33 +1,6 @@
 [gd_scene format=3 uid="uid://dla37eioedxiw"]
 
 [ext_resource type="Script" uid="uid://ce3e7cffbyna6" path="res://Scripts/main_character.gd" id="1_0eyao"]
-[ext_resource type="Texture2D" uid="uid://c081571ystv6a" path="res://Assets/AssetsMainCharacter/SpriteMainCharacterContorno.png" id="2_11o2n"]
 
-[node name="MainCharacter" type="Node2D" unique_id=1010891841 node_paths=PackedStringArray("number_sprite_arriba", "color_sprite_arriba", "number_sprite_derecha", "color_sprite_derecha", "number_sprite_izquierda", "color_sprite_izquierda", "contour_sprite")]
+[node name="MainCharacter" type="Node2D" unique_id=1010891841]
 script = ExtResource("1_0eyao")
-number_sprite_arriba = NodePath("NumberSpriteArriba")
-color_sprite_arriba = NodePath("ColorSpriteArriba")
-number_sprite_derecha = NodePath("NumberSpriteDerecha")
-color_sprite_derecha = NodePath("ColorSpriteDerecha")
-number_sprite_izquierda = NodePath("NumberSpriteIzquierda")
-color_sprite_izquierda = NodePath("ColorSpriteIzquierda")
-contour_sprite = NodePath("ContourSprite")
-
-[node name="ColorSpriteArriba" type="Sprite2D" parent="." unique_id=749275118]
-
-[node name="ColorSpriteIzquierda" type="Sprite2D" parent="." unique_id=392106505]
-
-[node name="ColorSpriteDerecha" type="Sprite2D" parent="." unique_id=1479856039]
-
-[node name="NumberSpriteArriba" type="Sprite2D" parent="." unique_id=1900938748]
-z_index = 1
-
-[node name="NumberSpriteIzquierda" type="Sprite2D" parent="." unique_id=737771285]
-z_index = 1
-
-[node name="NumberSpriteDerecha" type="Sprite2D" parent="." unique_id=514215932]
-z_index = 1
-
-[node name="ContourSprite" type="Sprite2D" parent="." unique_id=713930040]
-z_index = 2
-texture = ExtResource("2_11o2n")
