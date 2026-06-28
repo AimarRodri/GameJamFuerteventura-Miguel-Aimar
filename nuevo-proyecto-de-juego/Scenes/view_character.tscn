@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c081571ystv6a" path="res://Assets/AssetsMainCharacter/SpriteMainCharacterContorno.png" id="2_hidjg"]
 
 [node name="ViewCharacter" type="Node2D" unique_id=1183161615]
+z_as_relative = false
 script = ExtResource("1_nfesa")
 
 [node name="ColorSpriteArriba" type="Sprite2D" parent="." unique_id=1784543026]
@@ -30,4 +31,5 @@ z_index = 1
 [node name="ContourSprite" type="Sprite2D" parent="." unique_id=49461055]
 unique_name_in_owner = true
 z_index = 2
+position = Vector2(-211, 4)
 texture = ExtResource("2_hidjg")

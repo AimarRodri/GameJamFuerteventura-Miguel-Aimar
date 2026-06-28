@@ -9,16 +9,18 @@
 [node name="Game" type="Node2D" unique_id=165580537]
 script = ExtResource("1_qxrlw")
 
+[node name="MainCharacter" parent="." unique_id=1901642304 instance=ExtResource("4_3dryh")]
+position = Vector2(-211, 4)
+max_hitpoints = 10
+hitpoints = 10
+
+[node name="ViewCharacter" parent="MainCharacter" unique_id=1183161615 instance=ExtResource("4_wowpa")]
+z_as_relative = true
+
 [node name="Table" type="Sprite2D" parent="." unique_id=515944173]
 z_index = -1
 position = Vector2(0, -25)
 texture = ExtResource("1_ebmjs")
-
-[node name="MainCharacter" parent="." unique_id=1901642304 instance=ExtResource("4_3dryh")]
-position = Vector2(-211, 4)
-
-[node name="ViewCharacter" parent="." unique_id=1183161615 instance=ExtResource("4_wowpa")]
-z_index = 1
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=573293738]
 offset = Vector2(-148, 0)

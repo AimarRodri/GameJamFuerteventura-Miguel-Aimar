@@ -50,19 +50,21 @@ var current_colors = {
 	Direction.IZQUIERDA:"Rojo"
 }
 
-
 func _ready():
+	print("🔵 MainCharacterView _ready() llamado")
+	print("📍 Global position:", global_position)
+	print("👁 Visible:", visible)
 
 	_setup_zindex()
-
 	_position_faces()
-
 	_load_contour()
-
 	randomize_character()
+
+	print("🟢 MainCharacterView inicializado completamente")
 
 
 func _setup_zindex():
+	print("🔧 Configurando Z Index")
 
 	color_sprite_arriba.z_index = 0
 	color_sprite_derecha.z_index = 0
@@ -74,8 +76,11 @@ func _setup_zindex():
 
 	contour_sprite.z_index = 2
 
+	print("Z-index color=0, number=1, contour=2")
+
 
 func _position_faces():
+	print("📐 Posicionando sprites")
 
 	var scale = Vector2.ONE * character_scale
 
@@ -90,6 +95,8 @@ func _position_faces():
 
 	contour_sprite.scale = scale
 
+	print("Scale aplicado:", scale)
+
 	number_sprite_arriba.position = offset_arriba
 	color_sprite_arriba.position = offset_arriba
 
@@ -101,31 +108,54 @@ func _position_faces():
 
 	contour_sprite.position = offset_contorno
 
+	print("Offsets aplicados:",
+		offset_arriba,
+		offset_derecha,
+		offset_izquierda,
+		offset_contorno
+	)
+
 
 func _load_contour():
+	print("🖼 Cargando contorno...")
 
 	if ResourceLoader.exists(CONTOUR_PATH):
 		contour_sprite.texture = load(CONTOUR_PATH)
+		print("✅ Contorno cargado correctamente")
+	else:
+		print("❌ No existe textura contorno:", CONTOUR_PATH)
 
 
 func randomize_character():
+	print("🎲 Randomizando personaje")
 
 	for dir in Direction.values():
-
 		set_face(
 			dir,
 			NUMBERS.pick_random(),
 			COLORS.pick_random()
 		)
 
+	print("🎲 Randomización completada")
 
-func set_face(direction:Direction,number:int,color:String):
 
-	current_numbers[direction]=number
-	current_colors[direction]=color
+func set_face(direction:Direction, number:int, color:String):
+
+	print("🎯 set_face()",
+		DIRECTION_NAMES[direction],
+		"number:", number,
+		"color:", color
+	)
+
+	current_numbers[direction] = number
+	current_colors[direction] = color
 
 	var number_sprite = _get_number_sprite(direction)
 	var color_sprite = _get_color_sprite(direction)
+
+	if number_sprite == null or color_sprite == null:
+		print("❌ ERROR: Sprite null para dirección:", direction)
+		return
 
 	var number_path = "%s%d%s.png" % [
 		NUMBERS_PATH,
@@ -139,15 +169,23 @@ func set_face(direction:Direction,number:int,color:String):
 		DIRECTION_NAMES[direction]
 	]
 
+	print("📂 number_path:", number_path)
+	print("📂 color_path:", color_path)
+
 	if ResourceLoader.exists(number_path):
 		number_sprite.texture = load(number_path)
+		print("✅ Número cargado")
+	else:
+		print("❌ No existe número:", number_path)
 
 	if ResourceLoader.exists(color_path):
 		color_sprite.texture = load(color_path)
+		print("✅ Color cargado")
+	else:
+		print("❌ No existe color:", color_path)
 
 
 func _get_number_sprite(direction):
-
 	match direction:
 		Direction.ARRIBA:
 			return number_sprite_arriba
@@ -155,12 +193,10 @@ func _get_number_sprite(direction):
 			return number_sprite_derecha
 		Direction.IZQUIERDA:
 			return number_sprite_izquierda
-
 	return null
 
 
 func _get_color_sprite(direction):
-
 	match direction:
 		Direction.ARRIBA:
 			return color_sprite_arriba
@@ -168,13 +204,11 @@ func _get_color_sprite(direction):
 			return color_sprite_derecha
 		Direction.IZQUIERDA:
 			return color_sprite_izquierda
-
 	return null
 
 
 func get_face(direction:Direction)->Dictionary:
-
 	return {
-		"number":current_numbers[direction],
-		"color":current_colors[direction]
+		"number": current_numbers[direction],
+		"color": current_colors[direction]
 	}
