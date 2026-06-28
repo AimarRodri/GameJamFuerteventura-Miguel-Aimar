@@ -1,6 +1,8 @@
 class_name MainCharacterView
 extends Node2D
 
+signal request_update_ui
+
 const NUMBERS_PATH = "res://Assets/AssetsMainCharacter/"
 const COLORS_PATH = "res://Assets/AssetsMainCharacter/"
 const CONTOUR_PATH = "res://Assets/AssetsMainCharacter/SpriteMainCharacterContorno.png"
@@ -31,6 +33,10 @@ const COLORS = ["Rojo","Azul","Verde","Incoloro"]
 
 @onready var contour_sprite:AnimatedSprite2D = %ContourSprite
 
+@onready var health_label: Label = $Label
+
+@export var character_model: MainCharacter
+
 @export var offset_arriba := Vector2(0,-11)
 @export var offset_derecha := Vector2(8,0)
 @export var offset_izquierda := Vector2(-7,0)
@@ -38,124 +44,48 @@ const COLORS = ["Rojo","Azul","Verde","Incoloro"]
 
 @export var character_scale := 1.0
 
-var current_numbers = {
-	Direction.ARRIBA:1,
-	Direction.DERECHA:1,
-	Direction.IZQUIERDA:1
-}
-
-var current_colors = {
-	Direction.ARRIBA:"Rojo",
-	Direction.DERECHA:"Rojo",
-	Direction.IZQUIERDA:"Rojo"
-}
 
 func _ready():
-	print("🔵 MainCharacterView _ready() llamado")
-	print("📍 Global position:", global_position)
-	print("👁 Visible:", visible)
-
 	_setup_zindex()
 	_position_faces()
 	_load_contour()
-	randomize_character()
+	print("📍 HealthLabel local position:", health_label.position)
+	print("🌍 HealthLabel global position:", health_label.global_position)
+		
+	if character_model:
+		character_model.hitpoints_changed.connect(_on_hp_changed)
+		update_health()
 
-	print("🟢 MainCharacterView inicializado completamente")
-
-
-func _setup_zindex():
-	print("🔧 Configurando Z Index")
-
-	color_sprite_arriba.z_index = 0
-	color_sprite_derecha.z_index = 0
-	color_sprite_izquierda.z_index = 0
-
-	number_sprite_arriba.z_index = 1
-	number_sprite_derecha.z_index = 1
-	number_sprite_izquierda.z_index = 1
-
-	contour_sprite.z_index = 2
-
-	print("Z-index color=0, number=1, contour=2")
+	initialize_character()
 
 
-func _position_faces():
-	print("📐 Posicionando sprites")
+# ---------------- UI VIDA ----------------
 
-	var scale = Vector2.ONE * character_scale
+func _on_hp_changed(current:int, maximum:int):
+	update_health()
 
-	number_sprite_arriba.scale = scale
-	color_sprite_arriba.scale = scale
+func update_health():
+	if not character_model:
+		return
 
-	number_sprite_derecha.scale = scale
-	color_sprite_derecha.scale = scale
-
-	number_sprite_izquierda.scale = scale
-	color_sprite_izquierda.scale = scale
-
-	contour_sprite.scale = scale
-
-	print("Scale aplicado:", scale)
-
-	number_sprite_arriba.position = offset_arriba
-	color_sprite_arriba.position = offset_arriba
-
-	number_sprite_derecha.position = offset_derecha
-	color_sprite_derecha.position = offset_derecha
-
-	number_sprite_izquierda.position = offset_izquierda
-	color_sprite_izquierda.position = offset_izquierda
-
-	contour_sprite.position = offset_contorno
-
-	print("Offsets aplicados:",
-		offset_arriba,
-		offset_derecha,
-		offset_izquierda,
-		offset_contorno
-	)
+	health_label.text = "%d/%d" % [
+		character_model.hitpoints,
+		character_model.max_hitpoints
+	]
 
 
-func _load_contour():
-	print("🖼 Cargando contorno...")
+# ---------------- CARAS ----------------
 
-	if ResourceLoader.exists(CONTOUR_PATH):
-		contour_sprite.play("default")
-
-		print("✅ Contorno cargado como animación")
-	else:
-		print("❌ No existe textura contorno:", CONTOUR_PATH)
-
-func randomize_character():
-	print("🎲 Randomizando personaje")
-
-	for dir in Direction.values():
-		set_face(
-			dir,
-			NUMBERS.pick_random(),
-			COLORS.pick_random()
-		)
-
-	print("🎲 Randomización completada")
+func initialize_character():
+	set_face(Direction.ARRIBA, 3, "Rojo")
+	set_face(Direction.DERECHA, 2, "Verde")
+	set_face(Direction.IZQUIERDA, 0, "Incoloro")
 
 
 func set_face(direction:Direction, number:int, color:String):
 
-	print("🎯 set_face()",
-		DIRECTION_NAMES[direction],
-		"number:", number,
-		"color:", color
-	)
-
-	current_numbers[direction] = number
-	current_colors[direction] = color
-
 	var number_sprite = _get_number_sprite(direction)
 	var color_sprite = _get_color_sprite(direction)
-
-	if number_sprite == null or color_sprite == null:
-		print("❌ ERROR: Sprite null para dirección:", direction)
-		return
 
 	var number_path = "%s%d%s.png" % [
 		NUMBERS_PATH,
@@ -169,46 +99,67 @@ func set_face(direction:Direction, number:int, color:String):
 		DIRECTION_NAMES[direction]
 	]
 
-	print("📂 number_path:", number_path)
-	print("📂 color_path:", color_path)
-
 	if ResourceLoader.exists(number_path):
 		number_sprite.texture = load(number_path)
-		print("✅ Número cargado")
-	else:
-		print("❌ No existe número:", number_path)
 
 	if ResourceLoader.exists(color_path):
 		color_sprite.texture = load(color_path)
-		print("✅ Color cargado")
-	else:
-		print("❌ No existe color:", color_path)
 
+
+# ---------------- HELPERS ----------------
 
 func _get_number_sprite(direction):
 	match direction:
-		Direction.ARRIBA:
-			return number_sprite_arriba
-		Direction.DERECHA:
-			return number_sprite_derecha
-		Direction.IZQUIERDA:
-			return number_sprite_izquierda
-	return null
-
+		Direction.ARRIBA: return number_sprite_arriba
+		Direction.DERECHA: return number_sprite_derecha
+		Direction.IZQUIERDA: return number_sprite_izquierda
 
 func _get_color_sprite(direction):
 	match direction:
-		Direction.ARRIBA:
-			return color_sprite_arriba
-		Direction.DERECHA:
-			return color_sprite_derecha
-		Direction.IZQUIERDA:
-			return color_sprite_izquierda
-	return null
+		Direction.ARRIBA: return color_sprite_arriba
+		Direction.DERECHA: return color_sprite_derecha
+		Direction.IZQUIERDA: return color_sprite_izquierda
 
 
-func get_face(direction:Direction)->Dictionary:
-	return {
-		"number": current_numbers[direction],
-		"color": current_colors[direction]
-	}
+# ---------------- SETUP ----------------
+
+func _setup_zindex():
+	number_sprite_arriba.z_index = 1
+	number_sprite_derecha.z_index = 1
+	number_sprite_izquierda.z_index = 1
+
+	color_sprite_arriba.z_index = 0
+	color_sprite_derecha.z_index = 0
+	color_sprite_izquierda.z_index = 0
+
+	contour_sprite.z_index = 2
+
+
+func _position_faces():
+	var scale = Vector2.ONE * character_scale
+
+	number_sprite_arriba.scale = scale
+	number_sprite_derecha.scale = scale
+	number_sprite_izquierda.scale = scale
+
+	color_sprite_arriba.scale = scale
+	color_sprite_derecha.scale = scale
+	color_sprite_izquierda.scale = scale
+
+	contour_sprite.scale = scale
+
+	number_sprite_arriba.position = offset_arriba
+	color_sprite_arriba.position = offset_arriba
+
+	number_sprite_derecha.position = offset_derecha
+	color_sprite_derecha.position = offset_derecha
+
+	number_sprite_izquierda.position = offset_izquierda
+	color_sprite_izquierda.position = offset_izquierda
+
+	contour_sprite.position = offset_contorno
+
+
+func _load_contour():
+	if ResourceLoader.exists(CONTOUR_PATH):
+		contour_sprite.play("default")

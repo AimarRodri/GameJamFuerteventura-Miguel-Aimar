@@ -8,7 +8,7 @@ var won := false
 @onready var ui = $Control
 @onready var enemies = $Enemies
 @onready var table = $Table
-
+@onready var character = $MainCharacter/ViewCharacter
 
 # =====================================================
 # ENEMIGOS DE CADA NIVEL
@@ -60,16 +60,24 @@ func _ready():
 	
 	# Comenzar directamente en el nivel 1
 	_on_next_level()
+	table.position.x += 150
+
 
 
 func _on_next_level():
 	if !won:
-		level += 1
 		print("\n📊 ===== NIVEL", level, " =====")
 
 		# Mover únicamente el fondo 150 px hacia la izquierda
-		if level > 1 && level < 4:
+		if level < 3:
 			table.position.x -= 150
+			level += 1
+			if level == 2:
+				character.set_face(
+					MainCharacterView.Direction.IZQUIERDA,
+					1,
+					"Azul"
+				)
 		else:
 			print("🏆 GANASTE el juego!")
 			return
