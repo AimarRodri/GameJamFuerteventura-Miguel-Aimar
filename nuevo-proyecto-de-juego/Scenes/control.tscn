@@ -103,6 +103,7 @@ size_flags_vertical = 3
 z_index = 1
 
 [node name="TextureButton" type="TextureButton" parent="." unique_id=1734561559]
+visible = false
 layout_mode = 0
 offset_left = 110.0
 offset_top = 18.0

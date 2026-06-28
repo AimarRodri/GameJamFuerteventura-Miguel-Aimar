@@ -18,7 +18,6 @@ enum ActionType {
 var action:Dictionary = {}
 var action_index:int = -1
 
-
 func elegir_accion(index:int) -> bool:
 	if index < 0 or index >= actions.size():
 		return false

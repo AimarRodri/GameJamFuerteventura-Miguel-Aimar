@@ -1,6 +1,8 @@
 class_name DominoEnemy
 extends Enemy
 
+signal enemy_died
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D  # ✅ Esto funciona en _ready()
 @onready var health_label: Label = $Label
 
@@ -10,7 +12,10 @@ var lado_derecho: int
 var tipo_izquierdo: ActionType
 var tipo_derecho: ActionType
 var enemy_type: int = 1
+var block := 0
 
+func actualizar_barra_vida():
+	health_label.text = "%d/%d" % [hitpoints, max_hitpoints]
 
 func init(
 	lado_izq: int,
@@ -67,5 +72,65 @@ func _actualizar_visual() -> void:
 	else:
 		push_error("❌ Animación no existe: " + anim_name)
 
-func actualizar_barra_vida():
-	health_label.text = "%d/%d" % [hitpoints, max_hitpoints]
+func recibir_danio(value: int):
+
+	if block > 0:
+		var absorbed = min(block, value)
+		block -= absorbed
+		value -= absorbed
+
+	if value <= 0:
+		return
+
+	hitpoints -= value
+	hitpoints = max(hitpoints, 0)
+
+	actualizar_barra_vida()
+
+	if hitpoints <= 0:
+		_die()
+
+func heal(value:int):
+	hitpoints += value
+	hitpoints = min(hitpoints, max_hitpoints)
+
+	actualizar_barra_vida()
+
+func add_block(value:int):
+	block += value
+
+func _die():
+	print("☠ Enemigo muerto:", name)
+
+	visible = false
+	set_process(false)
+	set_physics_process(false)
+
+	enemy_died.emit()
+	
+func perform_turn(game):
+
+	if hitpoints <= 0:
+		return
+
+	if actions.is_empty():
+		return
+
+	var action = actions.pick_random()
+
+	match action.type:
+
+		ActionType.ATTACK:
+			print("👹 Enemigo ataca")
+			game.take_damage(action.value)
+
+		ActionType.HEAL:
+			print("👹 Enemigo cura", action.value)
+			heal(action.value)
+
+		ActionType.BLOCK:
+			print("👹 Enemigo bloquea", action.value)
+			add_block(action.value)
+
+		ActionType.NONE:
+			pass
