@@ -1,7 +1,43 @@
 [gd_scene format=3 uid="uid://dl6rulequbqy8"]
 
 [ext_resource type="Script" uid="uid://dhblxy4wxqtxd" path="res://Scripts/view_character.gd" id="1_nfesa"]
-[ext_resource type="Texture2D" uid="uid://c081571ystv6a" path="res://Assets/AssetsMainCharacter/SpriteMainCharacterContorno.png" id="2_hidjg"]
+[ext_resource type="Texture2D" uid="uid://c3eap8nw2jyea" path="res://Assets/SpriteMainCharacter-gift.png" id="2_hidjg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7np7k"]
+atlas = ExtResource("2_hidjg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6dgu1"]
+atlas = ExtResource("2_hidjg")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uaj46"]
+atlas = ExtResource("2_hidjg")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0e3v"]
+atlas = ExtResource("2_hidjg")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xrivr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7np7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6dgu1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uaj46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0e3v")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 2.0
+}]
 
 [node name="ViewCharacter" type="Node2D" unique_id=1183161615]
 z_as_relative = false
@@ -28,8 +64,8 @@ z_index = 1
 unique_name_in_owner = true
 z_index = 1
 
-[node name="ContourSprite" type="Sprite2D" parent="." unique_id=49461055]
+[node name="ContourSprite" type="AnimatedSprite2D" parent="." unique_id=2010831421]
 unique_name_in_owner = true
 z_index = 2
 position = Vector2(-211, 4)
-texture = ExtResource("2_hidjg")
+sprite_frames = SubResource("SpriteFrames_xrivr")

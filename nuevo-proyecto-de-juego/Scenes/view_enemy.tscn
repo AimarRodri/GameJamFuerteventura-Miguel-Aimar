@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dioouyatdx4rc"]
+
+[ext_resource type="Script" uid="uid://uu0r0e10o0sm" path="res://Scripts/dominoenemy.gd" id="1_edtal"]
+
+[node name="Enemy" type="Node2D" unique_id=1057116852]
+script = ExtResource("1_edtal")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1077008944]

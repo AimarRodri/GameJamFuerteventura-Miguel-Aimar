@@ -29,7 +29,7 @@ const COLORS = ["Rojo","Azul","Verde","Incoloro"]
 @onready var number_sprite_izquierda:Sprite2D = %NumberSpriteIzquierda
 @onready var color_sprite_izquierda:Sprite2D = %ColorSpriteIzquierda
 
-@onready var contour_sprite:Sprite2D = %ContourSprite
+@onready var contour_sprite:AnimatedSprite2D = %ContourSprite
 
 @export var offset_arriba := Vector2(0,-11)
 @export var offset_derecha := Vector2(8,0)
@@ -120,11 +120,11 @@ func _load_contour():
 	print("🖼 Cargando contorno...")
 
 	if ResourceLoader.exists(CONTOUR_PATH):
-		contour_sprite.texture = load(CONTOUR_PATH)
-		print("✅ Contorno cargado correctamente")
+		contour_sprite.play("default")
+
+		print("✅ Contorno cargado como animación")
 	else:
 		print("❌ No existe textura contorno:", CONTOUR_PATH)
-
 
 func randomize_character():
 	print("🎲 Randomizando personaje")

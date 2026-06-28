@@ -1,11 +1,12 @@
 class_name Enemy
-extends Node
+extends Node2D
 
 # Tipos de acción disponibles
 enum ActionType {
 	ATTACK,
 	BLOCK,
-	HEAL
+	HEAL,
+	NONE
 }
 
 # Vida
