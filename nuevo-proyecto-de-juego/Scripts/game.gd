@@ -197,6 +197,11 @@ func _unlock_next_level():
 # ACCIONES
 # =========================
 func _on_action_requested(index: int):
+
+	if !_action_unlocked(index):
+		_show_action_locked(index)
+		return
+
 	print("Acción recibida:", index)
 
 	match index:
@@ -283,3 +288,17 @@ func _enemy_turn():
 		return
 
 	enemy.perform_turn(self)
+
+func _action_unlocked(index: int) -> bool:
+	match level:
+		1:
+			return index <= 1      # Solo acciones 0 y 1
+		2:
+			return index <= 2      # Solo acciones 0,1,2
+		3:
+			return index <= 4      # Solo acciones 0,1,2,3,4
+		_:
+			return true
+			
+func _show_action_locked(index: int):
+	print("🔒 Acción ", index, " bloqueada en el nivel ", level)
