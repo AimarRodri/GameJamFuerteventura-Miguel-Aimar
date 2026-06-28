@@ -117,7 +117,7 @@ func spawn_level(lvl: int):
 		)
 
 		# Posicionar enemigos en fila (opcional)
-		var pos_x = -75 + (enemy_index - 1)
+		var pos_x = -120 + (enemy_index - 1)
 		var pos_y = 4.0
 		enemy.global_position = Vector2(pos_x, pos_y)
 		
