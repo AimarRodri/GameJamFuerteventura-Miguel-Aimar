@@ -11,7 +11,6 @@ const MENU_PATH = "res://Assets/AssetsMenu/"
 
 # Números y colores disponibles
 const NUMBERS = [1, 2, 3, 4, 5, 6]
-const COLORS = ["Rojo", "Azul", "Verde", "Incoloro"]
 
 # Array de botones detectados automáticamente
 var buttons: Array = []
@@ -150,10 +149,9 @@ func load_all_textures():
 	for i in range(buttons.size()):
 		set_button_combination(
 			i,
-			current_numbers[i],
-			current_colors[i]
+			current_numbers[i]
 		)
-func set_button_combination(index: int, number: int, color: String):
+func set_button_combination(index: int, number: int):
 	if index < 0 or index >= buttons.size():
 		return
 	
@@ -175,14 +173,12 @@ func set_button_combination(index: int, number: int, color: String):
 	# Guardar valores
 	if index < current_numbers.size():
 		current_numbers[index] = number
-	if index < current_colors.size():
-		current_colors[index] = color
 	
 	# Cargar texturas con los nombres CORRECTOS
 	# Números: "1 Menu.png", "2 Menu.png", etc.
 	var number_texture_path = "%s%dMenu.png" % [MENU_PATH, number]
 	# Colores: "MenuRojo.png", "MenuAzul.png", etc.
-	var color_texture_path = "%sMenu%s.png" % [MENU_PATH, color]
+	var color_texture_path = "%sMenu%s.png" % [MENU_PATH]
 	
 	# Cargar número
 	if ResourceLoader.exists(number_texture_path):
@@ -204,7 +200,7 @@ func set_button_combination(index: int, number: int, color: String):
 		if texture:
 			color_sprite.texture = texture
 			color_sprite.visible = true
-			print("✓ Menu%s.png cargado para botón %d" % [color, index + 1])
+			print("✓ Menu%s.png cargado para botón %d" % [index + 1])
 		else:
 			color_sprite.visible = false
 			push_error("✗ Error al cargar textura: ", color_texture_path)
@@ -237,8 +233,7 @@ func randomize_all_buttons():
 	
 	for i in range(buttons.size()):
 		var random_number = NUMBERS[randi() % NUMBERS.size()]
-		var random_color = COLORS[randi() % COLORS.size()]
-		set_button_combination(i, random_number, random_color)
+		set_button_combination(i, random_number)
 	print("Todos los botones randomizados")
 
 # Función para randomizar un botón específico
@@ -247,8 +242,7 @@ func randomize_button(index: int):
 		return
 	
 	var random_number = NUMBERS[randi() % NUMBERS.size()]
-	var random_color = COLORS[randi() % COLORS.size()]
-	set_button_combination(index, random_number, random_color)
+	set_button_combination(index, random_number)
 	print("Botón %d randomizado" % (index + 1))
 
 # Función para obtener la combinación de un botón
@@ -257,7 +251,6 @@ func get_button_combination(index: int) -> Dictionary:
 		return {}
 	return {
 		"number": current_numbers[index],
-		"color": current_colors[index],
 		"description": button_descriptions[index]
 	}
 
@@ -301,7 +294,7 @@ func configure_button(
 	action:Callable = Callable()
 ):
 
-	set_button_combination(index, number, color)
+	set_button_combination(index, number)
 
 	if action.is_valid():
 		set_button_action(index, action)
