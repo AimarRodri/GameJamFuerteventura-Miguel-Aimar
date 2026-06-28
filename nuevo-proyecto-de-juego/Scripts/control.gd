@@ -17,7 +17,6 @@ func _ready():
 	grids.append(preload("res://Assets/AssetsInterface/Grid2.png"))
 	grids.append(preload("res://Assets/AssetsInterface/Grid3.png"))
 	grids.append(preload("res://Assets/AssetsInterface/Grid4.png"))
-
 	texture_rect.texture = grids[current_index]
 
 	# 🔥 SOLO NEXT LEVEL (NO TOCAR)
@@ -31,6 +30,10 @@ func _ready():
 # NEXT LEVEL (NO CAMBIAR)
 # =========================
 func _on_next_button():
+	if current_index == 3:
+		texture_rect.texture = grids[3]
+		next_level_requested.emit()
+		return
 	current_index = (current_index + 1) % grids.size()
 	texture_rect.texture = grids[current_index]
 
