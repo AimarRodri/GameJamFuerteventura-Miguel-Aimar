@@ -16,7 +16,7 @@ const NUMBERS = [1, 2, 3, 4, 5, 6]
 var buttons: Array = []
 
 # Variables para almacenar la configuración actual de cada botón
-var current_numbers: Array = [1, 2, 3, 4, 5, 6]
+var current_numbers: Array = [3, 2, 1, 1, 2, 3]
 var current_colors: Array = ["Rojo", "Rojo", "Rojo", "Rojo", "Rojo", "Rojo"]
 
 # Configuración visual
