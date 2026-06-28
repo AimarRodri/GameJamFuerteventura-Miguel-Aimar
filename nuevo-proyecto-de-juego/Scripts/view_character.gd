@@ -33,8 +33,6 @@ const COLORS = ["Rojo","Azul","Verde","Incoloro"]
 
 @onready var contour_sprite:AnimatedSprite2D = %ContourSprite
 
-@onready var health_label: Label = $Label
-
 @export var character_model: MainCharacter
 
 @export var offset_arriba := Vector2(0,-11)
@@ -49,37 +47,15 @@ func _ready():
 	_setup_zindex()
 	_position_faces()
 	_load_contour()
-	print("📍 HealthLabel local position:", health_label.position)
-	print("🌍 HealthLabel global position:", health_label.global_position)
-		
-	if character_model:
-		character_model.hitpoints_changed.connect(_on_hp_changed)
-		update_health()
 
 	initialize_character()
-
-
-# ---------------- UI VIDA ----------------
-
-func _on_hp_changed(current:int, maximum:int):
-	update_health()
-
-func update_health():
-	if not character_model:
-		return
-
-	health_label.text = "%d/%d" % [
-		character_model.hitpoints,
-		character_model.max_hitpoints
-	]
-
 
 # ---------------- CARAS ----------------
 
 func initialize_character():
 	set_face(Direction.ARRIBA, 3, "Rojo")
 	set_face(Direction.DERECHA, 2, "Verde")
-	set_face(Direction.IZQUIERDA, 0, "Incoloro")
+	set_face(Direction.IZQUIERDA, 1, "Incoloro")
 
 
 func set_face(direction:Direction, number:int, color:String):
