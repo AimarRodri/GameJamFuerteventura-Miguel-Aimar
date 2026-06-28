@@ -1,9 +1,10 @@
 class_name DominoEnemy
 extends Enemy
 
-@onready var sprite: Sprite2D = $Sprite2D  # ✅ Esto funciona en _ready()
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D  # ✅ Esto funciona en _ready()
 @onready var health_label: Label = $Label
 
+var frames: SpriteFrames
 var lado_izquierdo: int
 var lado_derecho: int
 var tipo_izquierdo: ActionType
@@ -34,6 +35,8 @@ func init(
 	_generar_acciones()
 
 func _ready():
+	frames = load("res://Assets/Enemies.tres") as SpriteFrames
+	sprite.sprite_frames = frames
 	_actualizar_visual()
 	actualizar_barra_vida()
 
@@ -53,20 +56,16 @@ func _generar_acciones() -> void:
 
 
 func _actualizar_visual() -> void:
-	if not sprite:
-		push_error("❌ Sprite2D no encontrado")
+	if not sprite.sprite_frames:
+		push_error("❌ No hay SpriteFrames asignados")
 		return
-	
-	var ruta = "res://Assets/AssetsEnemies/Enemy" + str(enemy_type) + ".png"
-	print("   🖼 Cargando textura: ", ruta)
-	
-	var textura = load(ruta)
-	if textura:
-		sprite.texture = textura
-		print("   ✅ Textura cargada - Tamaño: ", textura.get_size())
-		print("   📍 Posición final del enemigo: ", global_position)
+
+	var anim_name = "Enemy" + str(enemy_type)
+
+	if sprite.sprite_frames.has_animation(anim_name):
+		sprite.play(anim_name)
 	else:
-		push_error("   ❌ No se encontró la imagen: ", ruta)
+		push_error("❌ Animación no existe: " + anim_name)
 
 func actualizar_barra_vida():
 	health_label.text = "%d/%d" % [hitpoints, max_hitpoints]

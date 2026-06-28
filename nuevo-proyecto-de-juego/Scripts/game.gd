@@ -1,6 +1,7 @@
 extends Node
 
 var level := 0
+var won := false
 
 @export var enemy_scene: PackedScene
 
@@ -62,19 +63,19 @@ func _ready():
 
 
 func _on_next_level():
-	level += 1
-	print("\n📊 ===== NIVEL", level, " =====")
+	if !won:
+		level += 1
+		print("\n📊 ===== NIVEL", level, " =====")
 
-	# Mover únicamente el fondo 150 px hacia la izquierda
-	if level > 1:
-		table.position.x -= 150
+		# Mover únicamente el fondo 150 px hacia la izquierda
+		if level > 1 && level < 4:
+			table.position.x -= 150
+		else:
+			print("🏆 GANASTE el juego!")
+			return
 
-	if level > level_data.size():
-		print("🏆 GANASTE el juego!")
-		return
-
-	clear_enemies()
-	spawn_level(level)
+		clear_enemies()
+		spawn_level(level)
 
 
 # =====================================================

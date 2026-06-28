@@ -1,11 +1,14 @@
 [gd_scene format=3 uid="uid://dioouyatdx4rc"]
 
 [ext_resource type="Script" uid="uid://uu0r0e10o0sm" path="res://Scripts/dominoenemy.gd" id="1_edtal"]
+[ext_resource type="SpriteFrames" uid="uid://b00kccljh7cn8" path="res://Assets/Enemies.tres" id="2_6jecf"]
 
 [node name="Enemy" type="Node2D" unique_id=1057116852]
 script = ExtResource("1_edtal")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1077008944]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=521627190]
+sprite_frames = ExtResource("2_6jecf")
+animation = &"Enemy3"
 
 [node name="Label" type="Label" parent="." unique_id=661700608]
 offset_left = -10.0
