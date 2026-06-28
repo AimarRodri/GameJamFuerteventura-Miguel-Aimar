@@ -11,7 +11,7 @@ sprite_frames = ExtResource("2_6jecf")
 animation = &"Enemy3"
 
 [node name="Label" type="Label" parent="." unique_id=661700608]
-offset_left = -10.0
+offset_left = -19.0
 offset_top = -40.0
-offset_right = 30.0
+offset_right = 21.0
 offset_bottom = -17.0
