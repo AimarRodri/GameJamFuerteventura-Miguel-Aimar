@@ -65,4 +65,4 @@ z_index = 3
 [node name="Sprite2D" type="Sprite2D" parent="Boss" unique_id=1654508329]
 z_index = -1
 position = Vector2(-99, -61)
-texture = ExtResource("8_v158k")
+texture = ExtResource("9_v158k")

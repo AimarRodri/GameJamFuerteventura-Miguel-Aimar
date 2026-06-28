@@ -127,6 +127,8 @@ func _on_next_level():
 				)
 		else:
 			print("🏆 GANASTE")
+			
+			
 			return
 
 		clear_enemies()
