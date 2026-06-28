@@ -1,5 +1,8 @@
 extends Node
 
+@onready var texture_rect := $GoodEnding
+@onready var texture_rect2 := $BadEnding
+
 var level := 0
 var won := false
 
@@ -45,7 +48,7 @@ var level_data = {
 	],
 	3: [
 		{
-			"izq": 2,
+			"izq": 6,
 			"der": 1,
 			"hp": 10,
 			"tipo_izq": Enemy.ActionType.ATTACK,
@@ -99,7 +102,7 @@ func take_damage(amount: int):
 	_update_hp_ui()
 
 	if hp <= 0:
-		_game_over()
+		texture_rect2.show()
 
 
 func heal(amount: int):
@@ -116,11 +119,6 @@ func _game_over():
 # LEVEL SYSTEM
 # =========================
 func _on_next_level():
-	if won:
-		return
-
-	print("\n📊 ===== NIVEL", level, " =====")
-	
 	block = 0
 
 	if level < 3:
@@ -135,7 +133,8 @@ func _on_next_level():
 			)
 	else:
 		print("🏆 GANASTE")
-		won = true
+		texture_rect.show()
+		print(texture_rect.visible)
 		return
 
 	clear_enemies()

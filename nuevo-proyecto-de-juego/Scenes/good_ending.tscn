@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://c7uxhkgouq5tu"]
+
+[ext_resource type="Texture2D" uid="uid://clbyvnk06xopl" path="res://Assets/EndGame.png" id="1_t7ufd"]
+
+[node name="GoodEnding" type="TextureRect" unique_id=91571479]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_t7ufd")
